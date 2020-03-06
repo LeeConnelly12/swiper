@@ -46,14 +46,14 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   else if (slideIndex < activeIndex) direction = 'prev';
   else direction = 'reset';
 
-  speed = typeof speed === 'function' ? speed(swiper.slides[slideIndex]) : speed
+  const calculatedSpeed = typeof speed === 'function' ? speed(swiper.slides[slideIndex]) : speed;
 
   // Update Index
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
     swiper.updateActiveIndex(slideIndex);
     // Update Height
     if (params.autoHeight) {
-    swiper.updateAutoHeight();
+      swiper.updateAutoHeight();
     }
     swiper.updateSlidesClasses();
     if (params.effect !== 'slide') {
@@ -67,7 +67,7 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
   }
   if (params.cssMode) {
     const isH = swiper.isHorizontal();
-    if (speed === 0) {
+    if (calculatedSpeed === 0) {
       wrapperEl[isH ? 'scrollLeft' : 'scrollTop'] = -translate;
     } else {
       // eslint-disable-next-line
@@ -83,20 +83,20 @@ export default function (index = 0, speed = this.params.speed, runCallbacks = tr
     return true;
   }
 
-  if (speed === 0) {
+  if (calculatedSpeed === 0) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);
     swiper.updateSlidesClasses();
-    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.emit('beforeTransitionStart', calculatedSpeed, internal);
     swiper.transitionStart(runCallbacks, direction);
     swiper.transitionEnd(runCallbacks, direction);
   } else {
-    swiper.setTransition(speed);
+    swiper.setTransition(calculatedSpeed);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);
     swiper.updateSlidesClasses();
-    swiper.emit('beforeTransitionStart', speed, internal);
+    swiper.emit('beforeTransitionStart', calculatedSpeed, internal);
     swiper.transitionStart(runCallbacks, direction);
     if (!swiper.animating) {
       swiper.animating = true;
