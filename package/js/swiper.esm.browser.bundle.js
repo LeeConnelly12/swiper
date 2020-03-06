@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: February 29, 2020
+ * Released on: March 6, 2020
  */
 
 /**
@@ -2055,13 +2055,14 @@ function slideTo (index = 0, speed = this.params.speed, runCallbacks = true, int
   else if (slideIndex < activeIndex) direction = 'prev';
   else direction = 'reset';
 
+  speed = typeof speed === 'function' ? speed(swiper.slides[slideIndex]) : speed;
 
   // Update Index
   if ((rtl && -translate === swiper.translate) || (!rtl && translate === swiper.translate)) {
     swiper.updateActiveIndex(slideIndex);
     // Update Height
     if (params.autoHeight) {
-      swiper.updateAutoHeight();
+    swiper.updateAutoHeight();
     }
     swiper.updateSlidesClasses();
     if (params.effect !== 'slide') {
